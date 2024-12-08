@@ -36,7 +36,7 @@
 #define RGB_GREEN       0x00, 0xFF, 0x00
 #define RGB_MAGENTA     0xFF, 0x00, 0xFF
 #define RGB_ORANGE      0xFF, 0x80, 0x00
-#define RGB_PINK        0xFF, 0x80, 0xBF
+#define RGB_PINK        0xFF, 0x00, 0xFF
 #define RGB_PURPLE      0x7A, 0x00, 0xFF
 #define RGB_RED         0xFF, 0x00, 0x00
 #define RGB_SPRINGGREEN 0x00, 0xFF, 0x80
@@ -62,7 +62,7 @@
 #define HSV_GREEN        85, 255, 255
 #define HSV_MAGENTA     213, 255, 255
 #define HSV_ORANGE       21, 255, 255
-#define HSV_PINK        234, 128, 255
+#define HSV_PINK        255,   0, 255
 #define HSV_PURPLE      191, 255, 255
 #define HSV_RED           0, 255, 255
 #define HSV_SPRINGGREEN 106, 255, 255
