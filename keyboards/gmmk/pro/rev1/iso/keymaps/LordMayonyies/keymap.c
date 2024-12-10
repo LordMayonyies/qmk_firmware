@@ -22,6 +22,10 @@ enum layer_names {
     _Functions = 2
 };
 
+enum my_keycodes {
+    AP_GLOB = SAFE_RANGE,
+};
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -42,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-------------------------------------------------------------------------------------------------------------'
      */
 
-    // The FN key by default maps to a momentary toggle to layer 1 to provide access to the QK_BOOT key (to put the board into bootloader mode). Without
+    // The FN key by default maps to a momentary toggle to layer 2 to provide access to the QK_BOOT key (to put the board into bootloader mode). Without
     // this mapping, you have to open the case to hit the button on the bottom of the PCB (near the USB cable attachment) while plugging in the USB
     // cable to get the board into bootloader mode - definitely not fun when you're working on your QMK builds. Remove this and put it back to KC_RGUI
     // if that's your preference.
@@ -74,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     // FN layer
     [_Functions] = LAYOUT(
-        _______, KC_BRMD, KC_BRMU, _______, _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, _______, _______,          _______,
+        _______, KC_BRMD, KC_BRMU, _______, _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, _______, AP_GLOB,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   DF(0),   DF(1), QK_BOOT,          _______,
         _______, _______, _______, _______,  EE_CLR, _______, _______, RM_TOGG, RM_HUEU, _______, _______, _______, _______,                   _______,
         _______, _______, _______, _______, _______, _______, RM_SATU, RM_VALD, RM_VALU, RM_SATD, _______, _______, _______, _______,          _______,
@@ -155,8 +159,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             rgb_matrix_set_color(44, RGB_RED); // F8. "Next track"
 
             // Set Windows/Mac Keyboard Toggle colors
-            rgb_matrix_set_color(62, RGB_BLUE); // 1 "Windows Layout"
-            rgb_matrix_set_color(79, RGB_RED); // 2 "Mac Layout"
+            rgb_matrix_set_color(62, RGB_BLUE); // - "Mac Layout"
+            rgb_matrix_set_color(79, RGB_RED); // = "Windows Layout"
 
             // Set Hue, Saturation, and Value keys
             rgb_matrix_set_color(41, RGB_PURPLE); // U. "Toggle"
@@ -189,4 +193,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
 
   return state;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record){
+    switch (keycode) {
+        case AP_GLOB:
+            host_consumer_send(record->event.pressed ? AC_NEXT_KEYBOARD_LAYOUT_SELECT : 0);
+            return false;
+    }
+
+    return true;
 }
