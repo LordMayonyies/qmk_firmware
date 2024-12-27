@@ -60,12 +60,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // MAC layout
     [_MAC] = LAYOUT(
-        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_DEL,           KC_MUTE,
-        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,          KC_PGUP,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,                   KC_PGDN,
-        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, KC_NUHS, KC_ENT,           KC_HOME,
-        KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          KC_RSFT, KC_UP,   KC_END,
-        KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             KC_RGUI, MO(2),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+        KC_ESC,  KC_F1,           KC_F2,           KC_F3,           KC_F4,           KC_F5,   KC_F6,   KC_F7,           KC_F8,           KC_F9,           KC_F10,         KC_F11,  KC_F12,  KC_DEL,           KC_MUTE,
+        KC_GRV,  KC_1,            KC_2,            KC_3,            KC_4,            KC_5,    KC_6,    KC_7,            KC_8,            KC_9,            KC_0,           KC_MINS, KC_EQL,  KC_BSPC,          KC_PGUP,
+        KC_TAB,  KC_Q,            KC_W,            KC_E,            KC_R,            KC_T,    KC_Y,    KC_U,            KC_I,            KC_O,            KC_P,           KC_LBRC, KC_RBRC,                   KC_PGDN,
+        KC_CAPS, LCTL_T(KC_A),    LSFT_T(KC_S),    LALT_T(KC_D),    LGUI_T(KC_F),    KC_G,    KC_H,    RGUI_T(KC_J),    RALT_T(KC_K),    RSFT_T(KC_L),    RCTL_T(KC_SCLN), KC_QUOT, KC_NUHS, KC_ENT,          KC_HOME,
+        KC_LSFT, KC_NUBS,         KC_Z,            KC_X,            KC_C,            KC_V,    KC_B,    KC_N,            KC_M,            KC_COMM,         KC_DOT,    KC_SLSH,        KC_RSFT, KC_UP,          KC_END,
+        KC_LCTL, KC_LALT,         KC_LGUI,                                                           KC_SPC,                                                     KC_RGUI, LT(2, AP_GLOB),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
     ),
     // Windows layout
     [_Windows] = LAYOUT(
@@ -78,15 +78,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     // FN layer
     [_Functions] = LAYOUT(
-        QK_BOOT, KC_BRMD, KC_BRMU, _______, _______, _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, _______, AP_GLOB,          _______,
+        QK_BOOT, KC_BRID, KC_BRIU, _______, _______, RM_VALD, RM_VALU, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______, _______, AP_GLOB,          _______,
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   DF(0),   DF(1), _______,          _______,
-        _______, _______, _______, _______,  EE_CLR, _______, _______, RM_TOGG, RM_HUEU, _______, _______, _______, _______,                   _______,
-        _______, _______, _______, _______, _______, _______, RM_SATU, RM_VALD, RM_VALU, RM_SATD, _______, _______, _______, _______,          _______,
+        _______, _______, _______, _______, EE_CLR, _______, _______, _______, _______, _______, _______, _______, _______,                   _______,
+        _______, _______, _______, _______, _______, _______, RM_TOGG, RM_SATD, RM_SATU, RM_HUEU, _______, _______, _______, _______,          _______,
         _______, _______, _______, _______, _______, _______, _______, NK_TOGG, _______, _______, _______, _______,          _______, RM_NEXT, _______,
         _______, _______, _______,                               _______,                              _______, _______, _______,    RM_SPDD, RM_PREV, RM_SPDU
-    ),
-
-
+    )
 };
 // clang-format on
 
@@ -154,21 +152,25 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         switch (layer) {
         case _Functions:
             // Set Media control colors
-            rgb_matrix_set_color(34, RGB_RED); // F6. "Prev Track"
-            rgb_matrix_set_color(39, RGB_BLUE); // F7. "Play/Pause"
-            rgb_matrix_set_color(44, RGB_RED); // F8. "Next track"
+            rgb_matrix_set_color(39, RGB_RED); // F7. "Prev Track"
+            rgb_matrix_set_color(44, RGB_BLUE); // F8. "Play/Pause"
+            rgb_matrix_set_color(50, RGB_RED); // F9. "Next track"
 
             // Set Windows/Mac Keyboard Toggle colors
             rgb_matrix_set_color(62, RGB_BLUE); // - "Mac Layout"
             rgb_matrix_set_color(79, RGB_RED); // = "Windows Layout"
 
+            // Clear EEPROM
+            rgb_matrix_set_color(25, RGB_RED);
+
             // Set Hue, Saturation, and Value keys
-            rgb_matrix_set_color(41, RGB_PURPLE); // U. "Toggle"
-            rgb_matrix_set_color(46, RGB_CYAN); // I. "Cycle hue"
-            rgb_matrix_set_color(37, RGB_GREEN); // H. "Saturation Increase"
-            rgb_matrix_set_color(42, RGB_TURQUOISE); // J "Brightness Decrease"
-            rgb_matrix_set_color(47, RGB_BLACK); // K. "Brightness Increase"
-            rgb_matrix_set_color(53, RGB_WHITE); // L. "Saturation Decrease"
+            rgb_matrix_set_color(28, RGB_BLACK); // F5. "Brightness Decrease"
+            rgb_matrix_set_color(34, RGB_WHITE); // F4. "Brightness Increase"
+
+            rgb_matrix_set_color(41, RGB_PURPLE); // H. "Toggle"
+            rgb_matrix_set_color(53, RGB_BLACK); // J. "Saturation Decrease"
+            rgb_matrix_set_color(37, RGB_WHITE); // K. "Saturation Increase"
+            rgb_matrix_set_color(46, RGB_CYAN); // L. "Cycle hue"
             break;
         default:
             break;
@@ -183,10 +185,10 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     switch (layer) {
     case _MAC:
-        rgb_matrix_mode(RGB_MATRIX_CUSTOM_mac_mode_effect);
+        // rgb_matrix_mode(RGB_MATRIX_CUSTOM_mac_mode_effect);
         break;
     case _Windows:
-        rgb_matrix_mode(RGB_MATRIX_CUSTOM_windows_mode_effect);
+        // rgb_matrix_mode(RGB_MATRIX_CUSTOM_windows_mode_effect);
         break;
     default: //  for any other layers, or the default layer
         break;
@@ -197,6 +199,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record){
     switch (keycode) {
+        case LT(2, AP_GLOB):
+            if(record->event.pressed && record->tap.count) {
+                host_consumer_send(record->event.pressed ? AC_NEXT_KEYBOARD_LAYOUT_SELECT : 0);
+                return false;
+            }
         case AP_GLOB:
             host_consumer_send(record->event.pressed ? AC_NEXT_KEYBOARD_LAYOUT_SELECT : 0);
             return false;
