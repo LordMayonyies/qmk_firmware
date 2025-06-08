@@ -26,6 +26,8 @@ enum my_keycodes {
     AP_GLOB = SAFE_RANGE,
 };
 
+#define CT_PARS LT(2, AP_GLOB)
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -65,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,  KC_Q,            KC_W,            KC_E,            KC_R,            KC_T,    KC_Y,    KC_U,            KC_I,            KC_O,            KC_P,           KC_LBRC, KC_RBRC,                   KC_PGDN,
         KC_CAPS, LCTL_T(KC_A),    LSFT_T(KC_S),    LALT_T(KC_D),    LGUI_T(KC_F),    KC_G,    KC_H,    RGUI_T(KC_J),    RALT_T(KC_K),    RSFT_T(KC_L),    RCTL_T(KC_SCLN), KC_QUOT, KC_NUHS, KC_ENT,          KC_HOME,
         KC_LSFT, KC_NUBS,         KC_Z,            KC_X,            KC_C,            KC_V,    KC_B,    KC_N,            KC_M,            KC_COMM,         KC_DOT,    KC_SLSH,        KC_RSFT, KC_UP,          KC_END,
-        KC_LCTL, KC_LALT,         KC_LGUI,                                                           KC_SPC,                                                     KC_RGUI, LT(2, AP_GLOB),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
+        KC_LCTL, KC_LALT,         KC_LGUI,                                                           KC_SPC,                                                     KC_RGUI, MO(2),   KC_RCTL, KC_LEFT, KC_DOWN, KC_RGHT
     ),
     // Windows layout
     [_Windows] = LAYOUT(
@@ -197,13 +199,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return state;
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record){
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case LT(2, AP_GLOB):
-            if(record->event.pressed && record->tap.count) {
+        case CT_PARS:
+            if(record->event.pressed && record->event.time <= TAPPING_TERM) {
                 host_consumer_send(record->event.pressed ? AC_NEXT_KEYBOARD_LAYOUT_SELECT : 0);
                 return false;
             }
+            break;
         case AP_GLOB:
             host_consumer_send(record->event.pressed ? AC_NEXT_KEYBOARD_LAYOUT_SELECT : 0);
             return false;

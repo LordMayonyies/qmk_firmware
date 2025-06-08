@@ -58,10 +58,6 @@ static bool mac_mode_effect(effect_params_t* params) {
     rgb_matrix_set_color(leftSideLEDs[i], RGB_RED);
   }
 
-  for(uint8_t i = 0; i < SIDE_LEDS_COUNT; i++) {
-    rgb_matrix_set_color(rightSideLEDs[i], RGB_RED);
-  }
-
   for (uint8_t i = 0; i < EXTERIOR_LEDS_COUNT; i++) {
     rgb_matrix_set_color(exteriorLeds[i], RGB_RED);
   }
@@ -82,10 +78,6 @@ static bool windows_mode_effect(effect_params_t* params) {
 
   for(uint8_t i = 0; i < SIDE_LEDS_COUNT; i++) {
     rgb_matrix_set_color(leftSideLEDs[i], RGB_BLUE);
-  }
-
-  for(uint8_t i = 0; i < SIDE_LEDS_COUNT; i++) {
-    rgb_matrix_set_color(rightSideLEDs[i], RGB_BLUE);
   }
 
   for (uint8_t i = 0; i < EXTERIOR_LEDS_COUNT; i++) {
